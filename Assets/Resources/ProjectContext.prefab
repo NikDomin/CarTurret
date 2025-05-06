@@ -74,3 +74,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b39f5e2fe040a1a51b567ec915d982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputHandlerPrefab: {fileID: 3260076270754252573, guid: b27ab252c1e463642b347bbed5be0d89, type: 3}

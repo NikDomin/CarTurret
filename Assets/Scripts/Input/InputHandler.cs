@@ -4,9 +4,13 @@ using UnityEngine.InputSystem;
 
 namespace Input
 {
-    public class InputHandler : MonoBehaviour
+    public interface IInputService
     {
-        public event Action<Vector2> OnMoveInput;
+        event Action<Vector2> OnScreenPosition;
+    }
+
+    public class InputHandler : MonoBehaviour, IInputService
+    {
         public event Action<Vector2> OnScreenPosition;
         private PlayerInput playerInput;
         private Camera camera1;
@@ -21,7 +25,6 @@ namespace Input
 
         private void Update()
         {
-            OnMoveInput?.Invoke(GetPointerInput());
             OnScreenPosition?.Invoke(moveAction.ReadValue<Vector2>());
             Debug.Log("Mouse input x: " + GetPointerInput().x + "Mouse input y: " + GetPointerInput().y);
         }

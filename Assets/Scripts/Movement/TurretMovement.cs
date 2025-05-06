@@ -1,46 +1,46 @@
-using System;
 using Input;
 using UnityEngine;
+using Zenject;
 
 namespace Movement
 {
     public class TurretMovement : MonoBehaviour
     {
-        [SerializeField] private InputHandler inputHandler;
-        
         private Vector2 inputVector;
         private Camera camera;
+        private IInputService inputService;
+
+        [Inject]
+        public void Construct(IInputService inputService)
+        {
+            this.inputService = inputService;
+            inputService.OnScreenPosition += SetInput;
+        }
         
         #region Mono
-
+        
         private void Awake()
         {
             camera = Camera.main;
         }
-
-        private void OnEnable()
-        {
-            inputHandler.OnScreenPosition += SetInput;
-        }
-
+        
         private void OnDisable()
         {
-            inputHandler.OnScreenPosition -= SetInput;
+            inputService.OnScreenPosition -= SetInput;
         }
+        
+        private void FixedUpdate()
+        {
+            RotateTowardsMouse();
+        }
+
+        #endregion
 
         private void SetInput(Vector2 inputVector)
         {
             this.inputVector = inputVector;
         }
 
-        private void FixedUpdate()
-        {
-            // RotateTurret();
-            RotateTowardsMouse();
-        }
-
-        #endregion
-        
         private void RotateTowardsMouse()
         {  
             Ray ray = camera.ScreenPointToRay(inputVector);

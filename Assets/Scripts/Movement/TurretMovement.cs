@@ -7,21 +7,21 @@ namespace Movement
     public class TurretMovement : MonoBehaviour
     {
         private Vector2 inputVector;
-        private Camera camera;
+        private Camera _сamera;
         private IInputService inputService;
 
         [Inject]
         public void Construct(IInputService inputService)
         {
             this.inputService = inputService;
-            inputService.OnScreenPosition += SetInput;
+            this.inputService.OnScreenPosition += SetInput;
         }
         
         #region Mono
         
         private void Awake()
         {
-            camera = Camera.main;
+            _сamera = Camera.main;
         }
         
         private void OnDisable()
@@ -43,7 +43,7 @@ namespace Movement
 
         private void RotateTowardsMouse()
         {  
-            Ray ray = camera.ScreenPointToRay(inputVector);
+            Ray ray = _сamera.ScreenPointToRay(inputVector);
 
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f))
             {

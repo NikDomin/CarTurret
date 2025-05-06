@@ -21,12 +21,12 @@ namespace Input
             camera1 = Camera.main;
             playerInput = GetComponent<PlayerInput>();
             moveAction = playerInput.actions.FindAction("Move");
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Update()
         {
             OnScreenPosition?.Invoke(moveAction.ReadValue<Vector2>());
-            Debug.Log("Mouse input x: " + GetPointerInput().x + "Mouse input y: " + GetPointerInput().y);
         }
      
         

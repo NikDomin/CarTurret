@@ -1,3 +1,4 @@
+using Infrastructure.ObjectPool;
 using Movement;
 using UnityEngine;
 using Zenject;
@@ -9,8 +10,12 @@ namespace Infrastructure
         [SerializeField] private Transform StartPoint;
         [SerializeField] private GameObject CarPrefab;
         
+        [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private int projectilePreloadCount = 10;
+        
         public override void InstallBindings()
         {
+            BindProjectilePool();
             BindPlayer();
         }
         
@@ -24,6 +29,16 @@ namespace Infrastructure
             //     .Bind<TurretMovement>()
             //     .FromInstance(turretMovement)
             //     .AsSingle();
+        }
+        
+        private void BindProjectilePool()
+        {
+            var pool = new GameObjectPool(projectilePrefab, projectilePreloadCount);
+    
+            Container
+                .Bind<GameObjectPool>()
+                .FromInstance(pool)
+                .AsSingle();
         }
     }
 }

@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Infrastructure.FSM.States
@@ -16,10 +15,7 @@ namespace Infrastructure.FSM.States
 
         public async UniTask Enter()
         {
-            Debug.Log("Load game scene");
-            var loadOp = SceneManager.LoadSceneAsync(Scenes.GAMESCENE);
-            await loadOp;
-            await UniTask.NextFrame();
+            await SceneManager.LoadSceneAsync(Scenes.GAMESCENE);
             await gameStateMachine.Enter<LevelReadyState>();
         }
 

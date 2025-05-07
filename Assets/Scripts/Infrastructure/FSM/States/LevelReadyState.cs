@@ -14,7 +14,6 @@ namespace Infrastructure.FSM.States
 
         public async UniTask Enter()
         {
-            Debug.Log("On new scene");
             //await until player not use play button for now just move to gameLoop
             await gameStateMachine.Enter<GameLoopState>();
         }

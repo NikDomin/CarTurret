@@ -14,9 +14,6 @@ namespace Infrastructure.FSM.States
 
         public async UniTask Enter()
         {
-            Debug.Log("Enter bootstrap scene");
-            await UniTask.Delay(500); // эмуляция ожидания
-            Debug.Log("awaited delay go to load level state");
             await gameStateMachine.Enter<LoadLevelState>();
         }
 

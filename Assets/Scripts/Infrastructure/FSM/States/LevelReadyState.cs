@@ -1,21 +1,42 @@
+using System.Threading.Tasks;
+using Camera;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
+using UI;
+using Zenject;
 
 namespace Infrastructure.FSM.States
 {
     public class LevelReadyState : IGameState
     {
         private readonly GameStateMachine gameStateMachine;
-
-        public LevelReadyState(GameStateMachine gameStateMachine)
+        private readonly SignalBus signalBus;
+        private UniTaskCompletionSource signalReceived;
+        
+        public LevelReadyState(GameStateMachine gameStateMachine, SignalBus signalBus)
         {
             this.gameStateMachine = gameStateMachine;
+            this.signalBus = signalBus;
         }
-
+        
         public async UniTask Enter()
         {
-            //await until player not use play button for now just move to gameLoop
+            signalReceived = new UniTaskCompletionSource();
+            await WaitPlayButton();
+            signalBus.Fire<StartCameraFollowSignal>();
+            
             await gameStateMachine.Enter<GameLoopState>();
+        }
+
+        private async UniTask WaitPlayButton()
+        {
+            signalBus.Subscribe<PlayButtonClickedSignal>(OnSignal);
+            await signalReceived.Task;
+            signalBus.Unsubscribe<PlayButtonClickedSignal>(OnSignal);
+        }
+
+        private void OnSignal()
+        {
+            signalReceived.TrySetResult();
         }
 
         public UniTask Exit() => UniTask.CompletedTask;

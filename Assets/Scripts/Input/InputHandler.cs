@@ -13,12 +13,12 @@ namespace Input
     {
         public event Action<Vector2> OnScreenPosition;
         private PlayerInput playerInput;
-        private Camera camera1;
+        private UnityEngine.Camera camera1;
 
         private InputAction moveAction;
         private void Awake()
         {
-            camera1 = Camera.main;
+            camera1 = UnityEngine.Camera.main;
             playerInput = GetComponent<PlayerInput>();
             moveAction = playerInput.actions.FindAction("Move");
             DontDestroyOnLoad(gameObject);

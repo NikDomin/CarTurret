@@ -7,7 +7,7 @@ namespace Movement
     public class TurretMovement : MonoBehaviour
     {
         private Vector2 inputVector;
-        private Camera _сamera;
+        private UnityEngine.Camera _сamera;
         private IInputService inputService;
 
         [Inject]
@@ -21,7 +21,7 @@ namespace Movement
         
         private void Awake()
         {
-            _сamera = Camera.main;
+            _сamera = UnityEngine.Camera.main;
         }
         
         private void OnDisable()

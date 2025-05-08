@@ -1,5 +1,7 @@
+using Camera;
 using Infrastructure.ObjectPool;
-using Movement;
+using Infrastructure.Player;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -13,22 +15,41 @@ namespace Infrastructure
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private int projectilePreloadCount = 10;
         
+        [SerializeField] private PlayButtonHandler playButtonHandler;
+        [SerializeField] private CameraHandler cameraHandler;
+
         public override void InstallBindings()
         {
+            BindUI();
             BindProjectilePool();
             BindPlayer();
+            BindCameraHandler();
         }
-        
+
+        private void BindCameraHandler()
+        {
+            Container
+                .Bind<IPlayerTargetReceiver>()  
+                .To<CameraHandler>()            
+                .FromInstance(cameraHandler)
+                .AsSingle();
+        }
+
+        private void BindUI()
+        { 
+            Container
+                .BindInterfacesTo<PlayButtonHandler>()
+                .FromInstance(playButtonHandler)
+                .AsSingle();;
+        }
+
         private void BindPlayer()
         {
-            TurretMovement turretMovement = Container
-                .InstantiatePrefabForComponent<TurretMovement>(CarPrefab, StartPoint.position, Quaternion.identity, null);
-            
-            //not used
-            // Container
-            //     .Bind<TurretMovement>()
-            //     .FromInstance(turretMovement)
-            //     .AsSingle();
+            Container
+                .Bind<IInitializable>()
+                .To<PlayerSpawner>()
+                .AsSingle()
+                .WithArguments(CarPrefab, StartPoint, cameraHandler);
         }
         
         private void BindProjectilePool()

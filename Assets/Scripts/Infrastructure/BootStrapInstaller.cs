@@ -1,6 +1,8 @@
+using Camera;
 using Infrastructure.FSM;
 using Infrastructure.FSM.States;
 using Input;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -11,8 +13,16 @@ namespace Infrastructure
         [SerializeField] private InputHandler inputHandlerPrefab;
         public override void InstallBindings()
         {
+            InstallSignalBus();
             BindFSM();
             BindInputService();
+        }
+
+        private void InstallSignalBus()
+        {
+            SignalBusInstaller.Install(Container);
+            Container.DeclareSignal<PlayButtonClickedSignal>();
+            Container.DeclareSignal<StartCameraFollowSignal>();
         }
 
         private void BindFSM()

@@ -61,5 +61,6 @@ namespace Infrastructure
                 .FromInstance(pool)
                 .AsSingle();
         }
+
     }
 }

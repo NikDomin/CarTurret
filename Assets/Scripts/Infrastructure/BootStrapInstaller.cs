@@ -1,6 +1,7 @@
 using Camera;
 using Infrastructure.FSM;
 using Infrastructure.FSM.States;
+using Infrastructure.Player;
 using Input;
 using UI;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace Infrastructure
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<PlayButtonClickedSignal>();
             Container.DeclareSignal<StartCameraFollowSignal>();
+            Container.DeclareSignal<StartGameLoopSignal>();
         }
 
         private void BindFSM()

@@ -1,10 +1,14 @@
+using System;
+using Infrastructure.Player;
 using UnityEngine;
+using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Movement
 {
     public class CarMovement : MonoBehaviour
     {
-              [Header("Movement")]
+        [Header("Movement")]
         [SerializeField] private float forwardSpeed = 5f;
 
         [Header("Steering")]
@@ -21,8 +25,25 @@ namespace Movement
         private float currentAngleOffset = 0f;
         private float timeToNextSteering;
         private Vector3 initialForward;
-
+        private bool isMove = false;
+        private SignalBus signalBus;
+        
         private Rigidbody rb;
+
+        [Inject]
+        private void Construct(SignalBus signalBus)
+        {
+            this.signalBus = signalBus;
+            signalBus.Subscribe<StartGameLoopSignal>(StartMove);
+        }
+
+        private void OnDisable()
+        {
+            signalBus.Unsubscribe<StartGameLoopSignal>(StartMove);
+        }
+
+        private void StartMove() => isMove = true;
+        
 
         private void Awake()
         {
@@ -38,6 +59,9 @@ namespace Movement
 
         private void FixedUpdate()
         {
+            if(!isMove) 
+                return;
+            
             UpdateSteeringTimer();
             CheckAndCorrectBounds();
             Steer();

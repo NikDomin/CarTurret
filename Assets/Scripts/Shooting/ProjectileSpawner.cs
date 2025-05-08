@@ -1,5 +1,6 @@
 using DefaultNamespace.Shooting;
 using Infrastructure.ObjectPool;
+using Infrastructure.Player;
 using Shooting.Projectile;
 using UnityEngine;
 using Zenject;
@@ -13,15 +14,29 @@ namespace Shooting
         
         private GameObjectPool projectilePool;
         private float nextFireTime;
-
+        private SignalBus signalBus;
+        private bool isStartSpawn;
+        
         [Inject]
-        public void Construct(GameObjectPool pool)
+        public void Construct(SignalBus signalBus, GameObjectPool pool)
         {
+            this.signalBus = signalBus;
+            this.signalBus.Subscribe<StartGameLoopSignal>(StartSpawn);
             projectilePool = pool;
         }
 
+        private void OnDisable()
+        {
+            signalBus.Unsubscribe<StartGameLoopSignal>(StartSpawn);
+        }
+
+        private void StartSpawn() => isStartSpawn = true;
+
         private void FixedUpdate()
         {
+            if(!isStartSpawn)
+                return;
+            
             if (Time.fixedTime >= nextFireTime)
             {
                 Spawn();

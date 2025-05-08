@@ -16,15 +16,11 @@ namespace Camera
         private void Construct(SignalBus signalBus)
         {
             this.signalBus = signalBus;
+            this.signalBus.Subscribe<StartCameraFollowSignal>(OnStartFollow);
             sideCamera.Priority = 20;
             followCamera.Priority = 10;
         }
-
-        private void OnEnable()
-        {
-            signalBus.Subscribe<StartCameraFollowSignal>(OnStartFollow);
-        }
-
+        
         private void OnDisable()
         {
             signalBus.Unsubscribe<StartCameraFollowSignal>(OnStartFollow);

@@ -1,3 +1,4 @@
+using Infrastructure.Player;
 using Input;
 using UnityEngine;
 using Zenject;
@@ -9,10 +10,13 @@ namespace Movement
         private Vector2 inputVector;
         private UnityEngine.Camera _сamera;
         private IInputService inputService;
-
+        private SignalBus signalBus;
+        private bool isRotation;
         [Inject]
-        public void Construct(IInputService inputService)
+        public void Construct(SignalBus signalBus, IInputService inputService)
         {
+            this.signalBus = signalBus;
+            this.signalBus.Subscribe<StartGameLoopSignal>(StartRotation);
             this.inputService = inputService;
             this.inputService.OnScreenPosition += SetInput;
         }
@@ -26,11 +30,18 @@ namespace Movement
         
         private void OnDisable()
         {
+            isRotation = false;
             inputService.OnScreenPosition -= SetInput;
+            signalBus.Unsubscribe<StartGameLoopSignal>(StartRotation);
         }
-        
+
+        private void StartRotation() => isRotation = true;
+
         private void FixedUpdate()
         {
+            if (!isRotation)
+                return;
+            
             RotateTowardsMouse();
         }
 

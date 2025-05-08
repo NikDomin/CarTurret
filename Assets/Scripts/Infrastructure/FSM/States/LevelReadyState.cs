@@ -22,7 +22,7 @@ namespace Infrastructure.FSM.States
         {
             signalReceived = new UniTaskCompletionSource();
             await WaitPlayButton();
-            signalBus.Fire<StartCameraFollowSignal>();
+            // signalBus.Fire<StartCameraFollowSignal>();
             
             await gameStateMachine.Enter<GameLoopState>();
         }

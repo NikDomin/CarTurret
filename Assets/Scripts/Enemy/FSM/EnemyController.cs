@@ -10,12 +10,18 @@ namespace Enemy.FSM
         [SerializeField] private float rangeToStopChasePlayer = 15f;
         [SerializeField] private float rangeToDetectPlayer = 10f;
         [Header("Patrol")]
-        [SerializeField] private float patrolRange = 3f;
+        // [SerializeField] private float patrolRange = 3f;
         [SerializeField] private float patrolSpeed = 1.5f;
         [SerializeField] private float turnSpeed = 5f;
+
+        [SerializeField] private Animator animator;
+        
+        public EnemyStateMachine StateMachine { get; private set; }
         private Transform playerTransform;
         private EnemyMovement enemyMovement;
-        public EnemyStateMachine StateMachine { get; private set; }
+        private readonly int idleTriggerHash = Animator.StringToHash("IdleTrigger");
+        private readonly int patrolTriggerHash = Animator.StringToHash("PatrolTrigger");
+        private readonly int runTriggerHash = Animator.StringToHash("RunTrigger");
         
         #region States
 
@@ -35,10 +41,11 @@ namespace Enemy.FSM
         }
         private void CreateStates()
         {
-            IdleState = new IdleState(this, playerTransform, rangeToDetectPlayer);
-            PatrolState = new PatrolState(this, playerTransform, patrolRange, patrolSpeed, enemyMovement,
-                rangeToDetectPlayer);
-            ChaseState = new ChaseState(this, playerTransform, rangeToStopChasePlayer, enemyMovement, chaseSpeed);
+            IdleState = new IdleState(this, animator, playerTransform, rangeToDetectPlayer, idleTriggerHash);
+            PatrolState = new PatrolState(this, animator, playerTransform,
+                rangeToDetectPlayer,patrolSpeed, enemyMovement, patrolTriggerHash);
+            ChaseState = new ChaseState(this, animator, playerTransform, 
+                enemyMovement, rangeToStopChasePlayer, chaseSpeed, runTriggerHash);
         }
 
         private void Update()

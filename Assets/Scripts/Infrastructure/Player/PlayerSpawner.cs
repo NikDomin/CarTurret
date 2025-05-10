@@ -1,27 +1,27 @@
-using Infrastructure.Player;
+using System.Collections.Generic;
 using Movement;
 using UnityEngine;
 using Zenject;
 
-namespace Infrastructure
+namespace Infrastructure.Player
 {
     public class PlayerSpawner : IInitializable
     {
         private readonly DiContainer container;
         private readonly GameObject carPrefab;
         private readonly Transform startPoint;
-        private readonly IPlayerTargetReceiver playerTargetReceiver;
+        private readonly List<IPlayerTargetReceiver> targetReceivers;
         
         public PlayerSpawner(
             DiContainer container,
             GameObject carPrefab,
             Transform startPoint,
-            IPlayerTargetReceiver playerTargetReceiver)
+            List<IPlayerTargetReceiver> targetReceivers)
         {
             this.container = container;
             this.carPrefab = carPrefab;
             this.startPoint = startPoint;
-            this.playerTargetReceiver = playerTargetReceiver;
+            this.targetReceivers = targetReceivers;
         }
 
         public void Initialize()
@@ -33,8 +33,8 @@ namespace Infrastructure
                 Quaternion.identity,
                 null);
  
-            playerTargetReceiver.SetPlayerTarget(playerInstance.transform);
-
+            foreach (var receiver in targetReceivers)
+                receiver.SetPlayerTarget(playerInstance.transform);
         }
     }
 }

@@ -1,4 +1,6 @@
 using Camera;
+using Enemy;
+using Enemy.FSM;
 using Infrastructure.ObjectPool;
 using Infrastructure.Player;
 using UI;
@@ -17,20 +19,38 @@ namespace Infrastructure
         
         [SerializeField] private PlayButtonHandler playButtonHandler;
         [SerializeField] private CameraHandler cameraHandler;
-
+        
+        [Header("Enemy")]
+        [SerializeField] private EnemySpawner enemySpawner;
+        [SerializeField] private int initEnemySize;
+        [SerializeField] private GameObject enemyPrefab;
+        
         public override void InstallBindings()
         {
             BindUI();
             BindProjectilePool();
             BindPlayer();
             BindCameraHandler();
+            BindEnemySpawner();
+        }
+
+        private void BindEnemySpawner()
+        {
+            Container
+                .BindInterfacesTo<EnemySpawner>()
+                .FromInstance(enemySpawner)
+                .AsSingle();
+            
+            Container.BindMemoryPool<EnemyController, EnemyPool>()
+                .WithInitialSize(initEnemySize)
+                .FromComponentInNewPrefab(enemyPrefab)
+                .UnderTransformGroup("Enemies");
         }
 
         private void BindCameraHandler()
         {
             Container
-                .Bind<IPlayerTargetReceiver>()  
-                .To<CameraHandler>()            
+                .BindInterfacesTo<CameraHandler>()
                 .FromInstance(cameraHandler)
                 .AsSingle();
         }
@@ -49,7 +69,7 @@ namespace Infrastructure
                 .Bind<IInitializable>()
                 .To<PlayerSpawner>()
                 .AsSingle()
-                .WithArguments(CarPrefab, StartPoint, cameraHandler);
+                .WithArguments(CarPrefab, StartPoint);
         }
         
         private void BindProjectilePool()

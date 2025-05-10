@@ -500,6 +500,57 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!1 &165979143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 165979145}
+  - component: {fileID: 165979144}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &165979144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165979143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 003f9cd9da334b0cb79f9a00d9915ed9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnTriggerDistance: 80
+  spawnOffset: 20
+  firstSpawnDistance: 60
+  minGroupSize: 3
+  maxGroupSize: 5
+  roadWidth: 6
+  groupSpread: 10
+--- !u!4 &165979145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165979143}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.0209172, y: -9.06618, z: 30.235424}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &348603506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -993,6 +1044,9 @@ MonoBehaviour:
   projectilePreloadCount: 10
   playButtonHandler: {fileID: 1310290733}
   cameraHandler: {fileID: 43781869}
+  enemySpawner: {fileID: 165979144}
+  initEnemySize: 50
+  enemyPrefab: {fileID: 2534443015423343001, guid: 87c71113a78197d4daf0be7d07b89bf3, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,3 +2523,4 @@ SceneRoots:
   - {fileID: 1972066631}
   - {fileID: 105455777}
   - {fileID: 43781870}
+  - {fileID: 165979145}

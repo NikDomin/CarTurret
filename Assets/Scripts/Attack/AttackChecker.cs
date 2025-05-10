@@ -1,15 +1,16 @@
+using Attack;
 using UnityEngine;
 
 namespace Shooting.Projectile
 {
-    public class ProjectileAttackChecker : MonoBehaviour
+    public class AttackChecker : MonoBehaviour
     {
         [SerializeField] private LayerMask hitLayer;
-        private ProjectileEventBus eventBus;
+        private EventBus eventBus;
         // private Collider collider;
         private void Awake()
         {
-            eventBus = GetComponent<ProjectileEventBus>();
+            eventBus = GetComponent<EventBus>();
             // collider = GetComponent<Collider>();
         }
         

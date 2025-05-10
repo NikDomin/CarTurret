@@ -1,4 +1,4 @@
-using System;
+using Attack;
 using DefaultNamespace;
 using Enemy.FSM;
 using UnityEngine;
@@ -11,6 +11,7 @@ namespace Enemy
         private Health health;
         private IMemoryPool pool;
         private EnemyController enemyController;
+        private EventBus eventBus;
         [Inject]
         private void Construct(IMemoryPool pool)
         {
@@ -20,17 +21,21 @@ namespace Enemy
         private void Awake()
         {
             health = GetComponent<Health>();
+            eventBus = GetComponent<EventBus>();
             enemyController = GetComponent<EnemyController>();
         }
 
         private void OnEnable()
         {
             health.OnDead += HandleDeath;
+            eventBus.OnFinish += HandleDeath;
         }
 
         private void OnDisable()
         {
             health.OnDead -= HandleDeath;
+            eventBus.OnFinish -= HandleDeath;
+
         }
 
         private void HandleDeath()

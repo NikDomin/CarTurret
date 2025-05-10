@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace Shooting.Projectile
+namespace Attack
 {
-    public class ProjectileEventBus : MonoBehaviour
+    public class EventBus : MonoBehaviour
     {
         public event Action OnFinish;
         public event Action<Collider> OnColliderHit;

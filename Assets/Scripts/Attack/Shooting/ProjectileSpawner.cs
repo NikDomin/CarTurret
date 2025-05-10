@@ -1,3 +1,4 @@
+using Attack;
 using DefaultNamespace.Shooting;
 using Infrastructure.ObjectPool;
 using Infrastructure.Player;
@@ -50,7 +51,7 @@ namespace Shooting
             projectile.transform.position = spawnPoint.position;
             projectile.transform.rotation = spawnPoint.rotation;
 
-            if (projectile.TryGetComponent(out ProjectileEventBus logic))
+            if (projectile.TryGetComponent(out EventBus logic))
             {
                 logic.Init(() => projectilePool.Return(projectile));
             }

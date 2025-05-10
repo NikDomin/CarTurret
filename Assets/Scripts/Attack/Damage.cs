@@ -1,17 +1,18 @@
 using System;
+using Attack;
 using UnityEngine;
 
 namespace Shooting.Projectile
 {
-    [RequireComponent(typeof(ProjectileEventBus))]
+    [RequireComponent(typeof(EventBus))]
     public class Damage : MonoBehaviour
     {
         [SerializeField] private float damageAmount;
-        private ProjectileEventBus eventBus;
+        private EventBus eventBus;
 
         private void Awake()
         {
-            eventBus = GetComponent<ProjectileEventBus>();
+            eventBus = GetComponent<EventBus>();
         }
 
         private void OnEnable()

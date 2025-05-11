@@ -1,5 +1,6 @@
 using Infrastructure.ObjectPool;
 using Infrastructure.Player;
+using Infrastructure.Signals;
 using Level.Finish;
 using UnityEngine;
 using Zenject;
@@ -17,22 +18,33 @@ namespace Enemy
         [SerializeField] private float roadWidth = 3f;
         [SerializeField] private float groupSpread = 2f;
 
+        private SignalBus signalBus;
         private EnemyPool enemyPool;
         private Transform playerTransform, finishLineTransform;
         private float lastSpawnZ;
-
+        private bool isStopSpawn;
         [Inject]
-        public void Construct(EnemyPool enemyPool)
+        public void Construct(EnemyPool enemyPool, SignalBus signalBus)
         {
             this.enemyPool = enemyPool;
+            this.signalBus = signalBus;
         }
+        
         private void Start()
         {
             FirstSpawn();
+            signalBus.Subscribe<LevelEndSignal>(StopSpawn);
+        }
+
+        private void OnDisable()
+        {
+            signalBus.Unsubscribe<LevelEndSignal>(StopSpawn);
         }
 
         private void Update()
         {
+            if (isStopSpawn) return;
+            
             if (playerTransform.position.z + spawnTriggerDistance >= lastSpawnZ)
             {
                 float nextSpawnZ = lastSpawnZ + spawnOffset;
@@ -88,8 +100,11 @@ namespace Enemy
             lastSpawnZ = nextSpawnZ;
         }
 
+        private void StopSpawn() => isStopSpawn = true;
+
         public void Respawn()
         {
+           isStopSpawn = false;
            FirstSpawn();
         }
     }

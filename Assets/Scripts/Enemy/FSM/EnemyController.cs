@@ -12,7 +12,6 @@ namespace Enemy.FSM
         [SerializeField] private float rangeToStopChasePlayer = 15f;
         [SerializeField] private float rangeToDetectPlayer = 10f;
         [Header("Patrol")]
-        // [SerializeField] private float patrolRange = 3f;
         [SerializeField] private float patrolSpeed = 1.5f;
         [SerializeField] private float turnSpeed = 5f;
 

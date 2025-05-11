@@ -38,7 +38,6 @@ namespace Enemy.FSM.States
         {
             if (getRangeToPlayer() > rangeToStopChasePlayer)
             {
-                //Maybe despawn enemy here
                 controller.StateMachine.ChangeState(controller.IdleState);
             }
             

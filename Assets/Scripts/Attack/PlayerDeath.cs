@@ -23,17 +23,24 @@ namespace Attack
         private void Start()
         {
             health.OnDead += PlayerDestroy;
+            signalBus.Subscribe<WinSignal>(OnWin);
         }
 
         private void OnDestroy()
         {
             health.OnDead -= PlayerDestroy;
+            signalBus.Unsubscribe<WinSignal>(OnWin);
+
         }
+
+        private void OnWin() => Destroy(gameObject);
+        
 
         private void PlayerDestroy()
         {
             signalBus.Fire<StopGameLoopSignal>();
-            GameObject.Destroy(gameObject);
+            signalBus.Fire<PlayerDeathSignal>();
+            Destroy(gameObject);
         }
     }
 }

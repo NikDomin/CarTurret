@@ -30,6 +30,7 @@ namespace Infrastructure
             Container.DeclareSignal<LevelEndSignal>();
             Container.DeclareSignal<StopGameLoopSignal>();
             Container.DeclareSignal<LevelRestartSignal>();
+            Container.DeclareSignal<LevelRestartButtonPressedSignal>();
         }
 
         private void BindFSM()

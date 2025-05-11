@@ -22,6 +22,8 @@ namespace Level.Finish
             
             Debug.Log("Victory! Player reached the finish line.");
             signalBus.Fire<StopGameLoopSignal>();
+            signalBus.Fire<WinSignal>();
+            
         }
     }
 }

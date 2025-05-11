@@ -8,6 +8,7 @@ namespace Infrastructure.FSM.States
     {
         private readonly GameStateMachine gameStateMachine;
         private readonly SignalBus signalBus;
+        private UniTaskCompletionSource signalReceived;
 
 
         public LevelEndState(GameStateMachine gameStateMachine, SignalBus signalBus)
@@ -19,8 +20,21 @@ namespace Infrastructure.FSM.States
         public async UniTask Enter()
         {
             signalBus.Fire<LevelEndSignal>();
+            
+            signalReceived = new UniTaskCompletionSource();
+            await waitRestartButton();
+            
             await gameStateMachine.Enter<LevelRestartState>();
         }
+
+        private async UniTask waitRestartButton()
+        {
+            signalBus.Subscribe<LevelRestartButtonPressedSignal>(OnSignal);
+            await signalReceived.Task;
+            signalBus.Unsubscribe<LevelRestartButtonPressedSignal>(OnSignal);
+        }
+
+        private void OnSignal() => signalReceived.TrySetResult();
 
         public UniTask Exit() => UniTask.CompletedTask;
     }

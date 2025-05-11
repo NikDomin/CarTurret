@@ -3,6 +3,7 @@ using Enemy;
 using Enemy.FSM;
 using Infrastructure.ObjectPool;
 using Infrastructure.Player;
+using Level.Finish;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -24,6 +25,10 @@ namespace Infrastructure
         [SerializeField] private EnemySpawner enemySpawner;
         [SerializeField] private int initEnemySize;
         [SerializeField] private GameObject enemyPrefab;
+
+        [Header("FinishLine")] 
+        [SerializeField] private GameObject FinishLinePrefab;
+        [SerializeField] private float finishLineSpawnDistance;
         
         public override void InstallBindings()
         {
@@ -31,6 +36,7 @@ namespace Infrastructure
             BindProjectilePool();
             BindPlayer();
             BindCameraHandler();
+            BindFinishLineSpawner();
             BindEnemySpawner();
         }
 
@@ -71,7 +77,15 @@ namespace Infrastructure
                 .AsSingle()
                 .WithArguments(CarPrefab, StartPoint);
         }
-        
+
+        private void BindFinishLineSpawner()
+        {
+            Container
+                .Bind<IInitializable>()
+                .To<FinishLineSpawner>()
+                .AsSingle()
+                .WithArguments(FinishLinePrefab, finishLineSpawnDistance);
+        }
         private void BindProjectilePool()
         {
             var pool = new GameObjectPool(projectilePrefab, projectilePreloadCount);

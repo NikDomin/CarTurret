@@ -1,12 +1,13 @@
 using Infrastructure.ObjectPool;
 using Infrastructure.Player;
+using Level.Finish;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Enemy
 {
-    public class EnemySpawner : MonoBehaviour, IPlayerTargetReceiver
+    public class EnemySpawner : MonoBehaviour, IPlayerTargetReceiver, IFinishLineReceiver
     {
         [SerializeField] private float spawnTriggerDistance = 20f;
         [SerializeField] private float spawnOffset = 30f;
@@ -17,7 +18,7 @@ namespace Enemy
         [SerializeField] private float groupSpread = 2f;
 
         private EnemyPool enemyPool;
-        private Transform playerTransform;
+        private Transform playerTransform, finishLineTransform;
         private float lastSpawnZ;
 
         [Inject]
@@ -37,8 +38,11 @@ namespace Enemy
             if (playerTransform.position.z + spawnTriggerDistance >= lastSpawnZ)
             {
                 float nextSpawnZ = lastSpawnZ + spawnOffset;
-                SpawnGroupAt(nextSpawnZ);
-                lastSpawnZ = nextSpawnZ;
+                if (nextSpawnZ < finishLineTransform.position.z)
+                {
+                    SpawnGroupAt(nextSpawnZ);
+                    lastSpawnZ = nextSpawnZ;
+                }
             }
         }
 
@@ -69,19 +73,14 @@ namespace Enemy
             return spawnPos;
         }
 
-        // private void InitEnemy(GameObject enemy, Vector3 spawnPos)
-        // {
-        //     enemy
-        //         .GetComponent<EnemyController>()
-        //         .Init(playerTransform, enemyPool);
-        //     
-        //     enemy.transform.position = spawnPos;
-        //     enemy.transform.rotation = Quaternion.identity;
-        // }
-
         public void SetPlayerTarget(Transform target)
         {
             playerTransform = target;
+        }
+
+        public void SetFinishLine(Transform target)
+        {
+            finishLineTransform = target;
         }
     }
 }

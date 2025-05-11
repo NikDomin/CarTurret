@@ -104,8 +104,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseSpeed: 4.5
-  rangeToStopChasePlayer: 60
-  rangeToDetectPlayer: 35
+  rangeToStopChasePlayer: 50
+  rangeToDetectPlayer: 30
   patrolSpeed: 1.5
   turnSpeed: 300
   animator: {fileID: 761823242515982881}

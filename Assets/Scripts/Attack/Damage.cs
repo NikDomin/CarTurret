@@ -1,8 +1,6 @@
-using System;
-using Attack;
 using UnityEngine;
 
-namespace Shooting.Projectile
+namespace Attack
 {
     [RequireComponent(typeof(EventBus))]
     public class Damage : MonoBehaviour

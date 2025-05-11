@@ -1,7 +1,6 @@
-using Attack;
 using UnityEngine;
 
-namespace Shooting.Projectile
+namespace Attack
 {
     public class AttackChecker : MonoBehaviour
     {

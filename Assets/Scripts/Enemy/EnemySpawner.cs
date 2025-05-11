@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Enemy
 {
-    public class EnemySpawner : MonoBehaviour, IPlayerTargetReceiver, IFinishLineReceiver
+    public class EnemySpawner : MonoBehaviour, IPlayerTargetReceiver, IFinishLineReceiver, IRespawnable
     {
         [SerializeField] private float spawnTriggerDistance = 20f;
         [SerializeField] private float spawnOffset = 30f;
@@ -28,9 +28,7 @@ namespace Enemy
         }
         private void Start()
         {
-            float nextSpawnZ = lastSpawnZ + firstSpawnDistance;
-            SpawnGroupAt(nextSpawnZ);
-            lastSpawnZ = nextSpawnZ;
+            FirstSpawn();
         }
 
         private void Update()
@@ -81,6 +79,18 @@ namespace Enemy
         public void SetFinishLine(Transform target)
         {
             finishLineTransform = target;
+        }
+
+        private void FirstSpawn()
+        {
+            float nextSpawnZ = 0 + firstSpawnDistance;
+            SpawnGroupAt(nextSpawnZ);
+            lastSpawnZ = nextSpawnZ;
+        }
+
+        public void Respawn()
+        {
+           FirstSpawn();
         }
     }
 }

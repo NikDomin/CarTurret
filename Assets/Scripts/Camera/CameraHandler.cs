@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Camera
 {
-    public class CameraHandler : MonoBehaviour, IPlayerTargetReceiver
+    public class CameraHandler : MonoBehaviour, IPlayerTargetReceiver, IRespawnable
     {
         [SerializeField] private CinemachineVirtualCamera sideCamera;
         [SerializeField] private CinemachineVirtualCamera followCamera;
@@ -36,6 +36,16 @@ namespace Camera
         {
             followCamera.Follow = target;
             followCamera.LookAt = target;
+        }
+
+        public void Respawn()
+        {
+            followCamera.enabled = false;
+            followCamera.transform.position = new Vector3(0, 11, -15);
+            followCamera.transform.rotation = Quaternion.Euler(new Vector3(36, 0, 0));
+            followCamera.enabled = true;
+            sideCamera.Priority = 20;
+            followCamera.Priority = 10;
         }
     }
 }

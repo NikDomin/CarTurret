@@ -1,5 +1,7 @@
 using Enemy.FSM.States;
+using Infrastructure.Signals;
 using UnityEngine;
+using Zenject;
 
 namespace Enemy.FSM
 {
@@ -19,6 +21,8 @@ namespace Enemy.FSM
         public EnemyStateMachine StateMachine { get; private set; }
         private Transform playerTransform;
         private EnemyMovement enemyMovement;
+        private SignalBus signalBus;
+        
         private readonly int idleTriggerHash = Animator.StringToHash("IdleTrigger");
         private readonly int patrolTriggerHash = Animator.StringToHash("PatrolTrigger");
         private readonly int runTriggerHash = Animator.StringToHash("RunTrigger");
@@ -28,8 +32,25 @@ namespace Enemy.FSM
         public IdleState IdleState { get; private set; }
         public PatrolState PatrolState { get; private set; }
         public ChaseState ChaseState { get; private set; }
+        public StopEnemyState StopEnemyState { get; private set; }
 
         #endregion
+
+        [Inject]
+        public void Construct(SignalBus signalBus)
+        {
+            this.signalBus = signalBus;
+        }
+        private void OnEnable()
+        {
+            signalBus.Subscribe<LevelEndSignal>(StopEnemy);
+        }
+
+        private void OnDisable()
+        {
+            signalBus.Unsubscribe<LevelEndSignal>(StopEnemy);
+        }
+
 
         public void Init(Transform playerTransform)
         {
@@ -39,6 +60,7 @@ namespace Enemy.FSM
             CreateStates();
             StateMachine.Initialize(IdleState);
         }
+
         private void CreateStates()
         {
             IdleState = new IdleState(this, animator, playerTransform, rangeToDetectPlayer, idleTriggerHash);
@@ -46,6 +68,7 @@ namespace Enemy.FSM
                 rangeToDetectPlayer,patrolSpeed, enemyMovement, patrolTriggerHash);
             ChaseState = new ChaseState(this, animator, playerTransform, 
                 enemyMovement, rangeToStopChasePlayer, chaseSpeed, runTriggerHash);
+            StopEnemyState = new StopEnemyState(this, animator, idleTriggerHash);
         }
 
         private void Update()
@@ -56,6 +79,11 @@ namespace Enemy.FSM
         private void FixedUpdate()
         {
             StateMachine.CurrentState.FixedUpdate();
+        }
+
+        private void StopEnemy()
+        {
+            StateMachine.ChangeState(StopEnemyState);
         }
     }
 }

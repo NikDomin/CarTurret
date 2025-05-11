@@ -1,12 +1,12 @@
-using Attack;
 using DefaultNamespace.Shooting;
 using Infrastructure.ObjectPool;
 using Infrastructure.Player;
-using Shooting.Projectile;
+using Infrastructure.Signals;
+using UI;
 using UnityEngine;
 using Zenject;
 
-namespace Shooting
+namespace Attack.Shooting
 {
     public class ProjectileSpawner : MonoBehaviour, ISpawnable
     {
@@ -22,15 +22,22 @@ namespace Shooting
         public void Construct(SignalBus signalBus, GameObjectPool pool)
         {
             this.signalBus = signalBus;
-            this.signalBus.Subscribe<StartGameLoopSignal>(StartSpawn);
             projectilePool = pool;
         }
 
-        private void OnDisable()
+        private void Start()
+        { 
+            signalBus.Subscribe<StartGameLoopSignal>(StartSpawn);
+            signalBus.Subscribe<LevelEndSignal>(StopShoot);
+        }
+        
+        private void OnDestroy()
         {
             signalBus.Unsubscribe<StartGameLoopSignal>(StartSpawn);
+            signalBus.Unsubscribe<LevelEndSignal>(StopShoot);
         }
 
+        private void StopShoot() => isStartSpawn = false;
         private void StartSpawn() => isStartSpawn = true;
 
         private void FixedUpdate()

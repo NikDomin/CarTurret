@@ -2,7 +2,9 @@ using Camera;
 using Infrastructure.FSM;
 using Infrastructure.FSM.States;
 using Infrastructure.Player;
+using Infrastructure.Signals;
 using Input;
+using Level;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -25,6 +27,9 @@ namespace Infrastructure
             Container.DeclareSignal<PlayButtonClickedSignal>();
             Container.DeclareSignal<StartCameraFollowSignal>();
             Container.DeclareSignal<StartGameLoopSignal>();
+            Container.DeclareSignal<LevelEndSignal>();
+            Container.DeclareSignal<StopGameLoopSignal>();
+            Container.DeclareSignal<LevelRestartSignal>();
         }
 
         private void BindFSM()
@@ -41,6 +46,8 @@ namespace Infrastructure
             Container.Bind<IGameState>().To<LoadLevelState>().AsSingle();
             Container.Bind<IGameState>().To<GameLoopState>().AsSingle();
             Container.Bind<IGameState>().To<LevelReadyState>().AsSingle();
+            Container.Bind<IGameState>().To<LevelEndState>().AsSingle();
+            Container.Bind<IGameState>().To<LevelRestartState>().AsSingle();
         }
 
         private void BindInputService()

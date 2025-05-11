@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using Camera;
 using Cysharp.Threading.Tasks;
 using UI;
 using Zenject;
@@ -34,10 +32,8 @@ namespace Infrastructure.FSM.States
             signalBus.Unsubscribe<PlayButtonClickedSignal>(OnSignal);
         }
 
-        private void OnSignal()
-        {
-            signalReceived.TrySetResult();
-        }
+        private void OnSignal()=> signalReceived.TrySetResult();
+        
 
         public UniTask Exit() => UniTask.CompletedTask;
     }

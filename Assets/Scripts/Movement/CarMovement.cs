@@ -1,5 +1,6 @@
 using System;
 using Infrastructure.Player;
+using Infrastructure.Signals;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -34,17 +35,8 @@ namespace Movement
         private void Construct(SignalBus signalBus)
         {
             this.signalBus = signalBus;
-            signalBus.Subscribe<StartGameLoopSignal>(StartMove);
         }
-
-        private void OnDisable()
-        {
-            signalBus.Unsubscribe<StartGameLoopSignal>(StartMove);
-        }
-
-        private void StartMove() => isMove = true;
         
-
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
@@ -55,7 +47,19 @@ namespace Movement
         {
             initialForward = transform.forward.normalized;
             PickNewSteeringAngle();
+            signalBus.Subscribe<StartGameLoopSignal>(StartMove);
+            signalBus.Subscribe<LevelEndSignal>(StopMove);
         }
+
+        private void OnDestroy()
+        {
+            signalBus.Unsubscribe<StartGameLoopSignal>(StartMove);
+            signalBus.Unsubscribe<LevelEndSignal>(StopMove);
+
+        }
+
+        private void StopMove() => isMove = false;
+        private void StartMove() => isMove = true;
 
         private void FixedUpdate()
         {

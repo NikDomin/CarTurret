@@ -1,11 +1,12 @@
 using Cysharp.Threading.Tasks;
+using Infrastructure.Player;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
 namespace UI
 {
-    public class PlayButtonHandler : MonoBehaviour, IInitializable
+    public class PlayButtonHandler : MonoBehaviour, IInitializable, IRespawnable
     {
         [SerializeField] private Button playButton;
         private UniTaskCompletionSource clickSource;
@@ -27,7 +28,7 @@ namespace UI
             clickSource = new UniTaskCompletionSource();
         }
         
-        private void OnDisable()
+        private void OnDestroy()
         {
             playButton.onClick.RemoveListener(OnClicked);
         }
@@ -37,6 +38,12 @@ namespace UI
             signalBus.Fire<PlayButtonClickedSignal>();
             clickSource.TrySetResult();
             gameObject.SetActive(false);
+        }
+
+        public void Respawn()
+        {
+            if(!gameObject.activeInHierarchy)
+                gameObject.SetActive(true);
         }
     }
 }

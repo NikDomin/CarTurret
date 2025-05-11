@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 3491394347428645979}
   - component: {fileID: 7393733528702919316}
   - component: {fileID: -9132508827804989902}
+  - component: {fileID: 940646970101480370}
   m_Layer: 7
   m_Name: CarObject
   m_TagString: Untagged
@@ -343,8 +344,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f371fdfc8e5b4cc597036c47bcd69d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 10
-  maxHealth: 10
+  currentHealth: 1
+  maxHealth: 1
+--- !u!114 &940646970101480370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5632377275298922802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed14eecf4c0c4a1ca22032e680413abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5146260653765812798
 PrefabInstance:
   m_ObjectHideFlags: 0

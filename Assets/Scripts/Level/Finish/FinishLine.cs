@@ -1,10 +1,19 @@
+using Infrastructure.Signals;
 using UnityEngine;
+using Zenject;
 
 namespace Level.Finish
 {
     public class FinishLine : MonoBehaviour
     {
         [SerializeField] private LayerMask hitLayer;
+        private SignalBus signalBus;
+
+        [Inject]
+        public void Construct(SignalBus signalBus)
+        {
+            this.signalBus = signalBus;
+        }
         
         private void OnTriggerEnter(Collider other)
         {
@@ -12,7 +21,7 @@ namespace Level.Finish
                 return;
             
             Debug.Log("Victory! Player reached the finish line.");
-
+            signalBus.Fire<StopGameLoopSignal>();
         }
     }
 }

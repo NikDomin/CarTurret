@@ -3,6 +3,7 @@ using Enemy;
 using Enemy.FSM;
 using Infrastructure.ObjectPool;
 using Infrastructure.Player;
+using Level;
 using Level.Finish;
 using UI;
 using UnityEngine;
@@ -38,6 +39,14 @@ namespace Infrastructure
             BindCameraHandler();
             BindFinishLineSpawner();
             BindEnemySpawner();
+            BindLevelRestart();
+        }
+
+        private void BindLevelRestart()
+        {
+            Container
+                .BindInterfacesTo<LevelRespawn>()
+                .AsSingle();
         }
 
         private void BindEnemySpawner()
@@ -51,6 +60,11 @@ namespace Infrastructure
                 .WithInitialSize(initEnemySize)
                 .FromComponentInNewPrefab(enemyPrefab)
                 .UnderTransformGroup("Enemies");
+            
+            Container.Bind<IRespawnable>()
+                .To<EnemyPool>()
+                .FromResolve()
+                .AsCached();
         }
 
         private void BindCameraHandler()
@@ -72,10 +86,19 @@ namespace Infrastructure
         private void BindPlayer()
         {
             Container
-                .Bind<IInitializable>()
-                .To<PlayerSpawner>()
+                .Bind<PlayerSpawner>() 
                 .AsSingle()
                 .WithArguments(CarPrefab, StartPoint);
+
+            Container
+                .Bind<IInitializable>()
+                .To<PlayerSpawner>()
+                .FromResolve(); 
+
+            Container
+                .Bind<IRespawnable>()
+                .To<PlayerSpawner>()
+                .FromResolve();
         }
 
         private void BindFinishLineSpawner()

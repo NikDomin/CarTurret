@@ -1,5 +1,7 @@
 using Infrastructure.Player;
+using Infrastructure.Signals;
 using Input;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -16,9 +18,7 @@ namespace Movement
         public void Construct(SignalBus signalBus, IInputService inputService)
         {
             this.signalBus = signalBus;
-            this.signalBus.Subscribe<StartGameLoopSignal>(StartRotation);
             this.inputService = inputService;
-            this.inputService.OnScreenPosition += SetInput;
         }
         
         #region Mono
@@ -27,13 +27,23 @@ namespace Movement
         {
             _сamera = UnityEngine.Camera.main;
         }
-        
-        private void OnDisable()
+
+        private void Start()
+        { 
+            signalBus.Subscribe<StartGameLoopSignal>(StartRotation);
+            signalBus.Subscribe<LevelEndSignal>(StopRotation);
+            inputService.OnScreenPosition += SetInput;
+        }
+
+        private void OnDestroy()
         {
             isRotation = false;
             inputService.OnScreenPosition -= SetInput;
             signalBus.Unsubscribe<StartGameLoopSignal>(StartRotation);
+            signalBus.Unsubscribe<LevelEndSignal>(StopRotation);
         }
+        
+        private void StopRotation() => isRotation = false;
 
         private void StartRotation() => isRotation = true;
 
@@ -60,7 +70,7 @@ namespace Movement
             {
                 Vector3 lookTarget = hitInfo.point;
                 Vector3 direction = lookTarget - transform.position;
-                direction.y = 0f; // Игнорируем высоту, только поворот по Y
+                direction.y = 0f;
 
                 if (direction.sqrMagnitude > 0.001f)
                 {

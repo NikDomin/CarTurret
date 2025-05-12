@@ -19,7 +19,7 @@ namespace Infrastructure.FSM
         public void Initialize()
         {
             gameStateMachine.Initialize(states);
-            gameStateMachine.Enter<BootstrapState>().Forget();
+            gameStateMachine.Enter<BootStrapState>().Forget();
         }
     }
 }

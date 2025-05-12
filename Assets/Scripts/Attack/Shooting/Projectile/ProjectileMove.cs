@@ -1,11 +1,9 @@
-using System;
 using UnityEngine;
 
-namespace Shooting.Projectile
+namespace Attack.Shooting.Projectile
 {
     public class ProjectileMove : MonoBehaviour
     {
-        public event Action onFinish;
         [SerializeField] private float speed;
         private Rigidbody rb;
 

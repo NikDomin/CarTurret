@@ -28,13 +28,5 @@ namespace Input
         {
             OnScreenPosition?.Invoke(moveAction.ReadValue<Vector2>());
         }
-     
-        
-        private Vector2 GetPointerInput()
-        {
-            Vector3 mousePosition = moveAction.ReadValue<Vector2>(); // Get the value from the mouse
-            mousePosition.z = camera1.nearClipPlane;
-            return camera1.ScreenToWorldPoint(mousePosition);
-        }
     }
 }

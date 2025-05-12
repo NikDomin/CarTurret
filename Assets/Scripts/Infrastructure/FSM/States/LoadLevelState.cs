@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using DefaultNamespace;
+using Level;
 using UnityEngine.SceneManagement;
 
 namespace Infrastructure.FSM.States

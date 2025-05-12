@@ -1,13 +1,12 @@
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Infrastructure.FSM.States
 {
-    public class BootstrapState : IGameState
+    public class BootStrapState : IGameState
     {
         private readonly GameStateMachine gameStateMachine;
 
-        public BootstrapState(GameStateMachine gameStateMachine)
+        public BootStrapState(GameStateMachine gameStateMachine)
         {
             this.gameStateMachine = gameStateMachine;
         }

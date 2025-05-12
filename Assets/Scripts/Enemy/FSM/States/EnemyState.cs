@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Enemy.FSM.States
 {
-    public class EnemyState
+    public abstract class EnemyState
     {
         private readonly EnemyController controller;
         private readonly Animator animator;

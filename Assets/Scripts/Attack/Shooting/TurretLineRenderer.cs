@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Attack.Shooting
 {
     [RequireComponent(typeof(LineRenderer))]
     public class TurretLineRenderer : MonoBehaviour

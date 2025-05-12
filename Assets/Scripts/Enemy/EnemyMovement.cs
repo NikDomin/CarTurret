@@ -34,11 +34,6 @@ namespace Enemy
             Vector3 newPosition = enemyTransform.position + forwardMovement;
 
             rb.MovePosition(newPosition);
-            
-            
-            // Vector3 direction = (target - enemyTransform.position).normalized;
-            // Vector3 nextPosition = enemyTransform.position + direction * (speed * Time.fixedDeltaTime);
-            // rb.MovePosition(nextPosition);
         }
         
         public Vector3 GetRandomPatrolPoint()

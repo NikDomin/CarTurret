@@ -35,7 +35,7 @@ namespace Enemy.FSM.States
         {
             waitTime -= Time.deltaTime;
 
-            if (getRangeToPlayer() < rangeToDetectPlayer)
+            if (GetRangeToPlayer() < rangeToDetectPlayer)
             {
                 controller.StateMachine.ChangeState(controller.ChaseState);
             }
@@ -45,7 +45,7 @@ namespace Enemy.FSM.States
             }
         }
 
-        private float getRangeToPlayer()
+        private float GetRangeToPlayer()
         {
             return Vector3.Distance(controller.transform.position, playerTransform.position);
         }

@@ -1,7 +1,6 @@
 using Infrastructure.Player;
 using Infrastructure.Signals;
 using Input;
-using UI;
 using UnityEngine;
 using Zenject;
 
@@ -20,8 +19,6 @@ namespace Movement
             this.signalBus = signalBus;
             this.inputService = inputService;
         }
-        
-        #region Mono
         
         private void Awake()
         {
@@ -42,10 +39,6 @@ namespace Movement
             signalBus.Unsubscribe<StartGameLoopSignal>(StartRotation);
             signalBus.Unsubscribe<LevelEndSignal>(StopRotation);
         }
-        
-        private void StopRotation() => isRotation = false;
-
-        private void StartRotation() => isRotation = true;
 
         private void FixedUpdate()
         {
@@ -54,8 +47,6 @@ namespace Movement
             
             RotateTowardsMouse();
         }
-
-        #endregion
 
         private void SetInput(Vector2 inputVector)
         {
@@ -79,5 +70,9 @@ namespace Movement
                 }
             }
         }
+
+        private void StopRotation() => isRotation = false;
+
+        private void StartRotation() => isRotation = true;
     }
 }

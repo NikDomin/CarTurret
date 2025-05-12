@@ -1,5 +1,4 @@
 using Attack;
-using DefaultNamespace;
 using Enemy.FSM;
 using UnityEngine;
 using Zenject;

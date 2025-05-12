@@ -1,4 +1,4 @@
-namespace DefaultNamespace.Shooting
+namespace Attack.Shooting
 {
     public interface ISpawnable
     {

@@ -1,4 +1,3 @@
-using System;
 using Infrastructure.Player;
 using Infrastructure.Signals;
 using UnityEngine;

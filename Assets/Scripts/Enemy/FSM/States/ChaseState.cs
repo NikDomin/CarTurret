@@ -36,7 +36,7 @@ namespace Enemy.FSM.States
         
         public override void FixedUpdate()
         {
-            if (getRangeToPlayer() > rangeToStopChasePlayer)
+            if (GetRangeToPlayer() > rangeToStopChasePlayer)
             {
                 controller.StateMachine.ChangeState(controller.IdleState);
             }
@@ -44,7 +44,7 @@ namespace Enemy.FSM.States
             enemyMovement.MoveTo(playerTransform.position, speed);
         }
         
-        private float getRangeToPlayer()
+        private float GetRangeToPlayer()
         {
             return Vector3.Distance(controller.transform.position, playerTransform.position);
         }

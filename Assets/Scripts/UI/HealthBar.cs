@@ -1,5 +1,4 @@
-using System;
-using DefaultNamespace;
+using Attack;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -12,7 +12,7 @@ using Zenject;
 
 namespace Infrastructure
 {
-    public class LocationInstaller : MonoInstaller
+    public class LevelInstaller : MonoInstaller
     {
         [SerializeField] private Transform StartPoint;
         [SerializeField] private GameObject CarPrefab;

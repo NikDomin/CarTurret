@@ -4,6 +4,6 @@ namespace Infrastructure.Player
 {
     public interface IPlayerTargetReceiver
     {
-        void SetPlayerTarget(Transform target);
+        public void SetPlayerTarget(Transform target);
     }
 }

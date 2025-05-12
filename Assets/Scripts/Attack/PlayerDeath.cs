@@ -1,4 +1,3 @@
-using DefaultNamespace;
 using Infrastructure.Signals;
 using UnityEngine;
 using Zenject;

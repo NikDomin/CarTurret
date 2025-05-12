@@ -14,6 +14,6 @@ namespace Attack
         }
         
         public void OnFinishTrigger() => OnFinish?.Invoke();
-        public void ONColliderHitTrigger(Collider collider) => OnColliderHit?.Invoke(collider);
+        public void OnColliderHitTrigger(Collider collider) => OnColliderHit?.Invoke(collider);
     }
 }

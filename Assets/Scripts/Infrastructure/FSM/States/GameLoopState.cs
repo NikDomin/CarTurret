@@ -25,7 +25,6 @@ namespace Infrastructure.FSM.States
             signalBus.Fire<StartCameraFollowSignal>();
             signalBus.Fire<StartGameLoopSignal>();
             
-            //await waitForLevelEnd then go to level end state
             signalReceived = new UniTaskCompletionSource();
             await WaitLevelEnd();
             await gameStateMachine.Enter<LevelEndState>();

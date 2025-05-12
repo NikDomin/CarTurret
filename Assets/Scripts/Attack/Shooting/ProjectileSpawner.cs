@@ -1,8 +1,6 @@
-using DefaultNamespace.Shooting;
 using Infrastructure.ObjectPool;
 using Infrastructure.Player;
 using Infrastructure.Signals;
-using UI;
 using UnityEngine;
 using Zenject;
 

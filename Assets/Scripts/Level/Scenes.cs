@@ -1,4 +1,4 @@
-namespace DefaultNamespace
+namespace Level
 {
     public static class Scenes
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Attack
 {
     public class Health : MonoBehaviour
     {

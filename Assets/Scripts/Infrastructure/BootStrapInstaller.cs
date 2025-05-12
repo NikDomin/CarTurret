@@ -43,7 +43,7 @@ namespace Infrastructure
                 .BindInterfacesTo<GameInitializer>()
                 .AsSingle();
             
-            Container.Bind<IGameState>().To<BootstrapState>().AsSingle();
+            Container.Bind<IGameState>().To<BootStrapState>().AsSingle();
             Container.Bind<IGameState>().To<LoadLevelState>().AsSingle();
             Container.Bind<IGameState>().To<GameLoopState>().AsSingle();
             Container.Bind<IGameState>().To<LevelReadyState>().AsSingle();

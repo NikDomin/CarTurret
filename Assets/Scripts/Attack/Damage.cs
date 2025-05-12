@@ -25,7 +25,6 @@ namespace Attack
 
         private void HandleDetectCollider(Collider collider)
         {
-            Debug.Log("Damage collider: " + collider.name);
             if(collider.TryGetComponent(out IDamageable damageable))
                 damageable.Damage(damageAmount);
         }

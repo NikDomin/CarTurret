@@ -5,7 +5,7 @@ namespace DefaultNamespace
 {
     public class Health : MonoBehaviour
     {
-        public event Action OnChange;
+        public event Action<float> OnChange;
         public event Action OnDead;
         [SerializeField]
         private float currentHealth, maxHealth;
@@ -15,12 +15,18 @@ namespace DefaultNamespace
             currentHealth = maxHealth;
         }
 
+        public float GetMaxHealth()
+        {
+            return maxHealth;
+        }
+            
         public void GetHit(float amount)
         {
             currentHealth -= amount;
-            OnChange?.Invoke();
-            Debug.Log("New health on object: " + gameObject.name + " is: " + currentHealth);
+            if (currentHealth < 0)
+                currentHealth = 0;
             
+            OnChange?.Invoke(currentHealth);
             if (currentHealth <= 0)
                 OnDead?.Invoke();
         }
